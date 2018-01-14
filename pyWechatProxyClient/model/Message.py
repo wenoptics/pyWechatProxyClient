@@ -1,12 +1,40 @@
-from pyWechatProxyClient.Client import Client
 from pyWechatProxyClient.model.Chat import Chat
+from pyWechatProxyClient.model.Friend import Friend
+from pyWechatProxyClient.model.Group import Group
 
 
 class Message:
     def __init__(self):
+        self._sender = None
         self._text = None
         self._client = None
         self._type = None
+        self._time = None
+
+    def set_message(self,
+                    talker_id='',
+                    time='',
+                    content=''
+                    ):
+        """
+        Construct Wechat message
+        :param content:
+        :param time:
+        :param talker_id:
+        :return:
+        """
+
+        if talker_id.endswith('@chatroom'):
+            # This is a message from group chat
+            sender_group = Group(group_chat_id=talker_id)
+            self._sender = sender_group
+        else:
+            sender_friend = Friend(friend_id=talker_id)
+            self._sender = sender_friend
+
+        self._time = time
+
+        # todo Set message property according to content
 
     @property
     def type(self) -> str:
@@ -48,7 +76,7 @@ class Message:
         pass
 
     @property
-    def client(self) -> Client:
+    def client(self):
         return self._client
 
     @property
@@ -76,7 +104,7 @@ class Message:
         """
         pass
 
-    #--------------------------------
+    # --------------------------------
     # 回复方法
 
     def reply(self, *args, **kwargs):
