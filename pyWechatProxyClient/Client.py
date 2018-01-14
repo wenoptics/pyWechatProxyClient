@@ -1,17 +1,21 @@
+import asyncio
 import logging
 
-import asyncio
-
-from pyWechatProxyClient.api import parse_message
+from pyWechatProxyClient.ServerApi import parse_message
+from pyWechatProxyClient.api.message.message_config import MessageConfig
+from pyWechatProxyClient.api.message.registered import Registered
+from pyWechatProxyClient.api.model.Message import Message
 from pyWechatProxyClient.backend.WebSocketClientEngine import WebSocketClientEngine
-from pyWechatProxyClient.model.Message import Message
 from pyWechatProxyClient.utils.util import start_new_thread
 
 logger = logging.getLogger(__name__)
 
 
 class Client:
-    def __init__(self):
+    def __init__(self, wx_proxy_server_url):
+
+        self.server_url = wx_proxy_server_url
+        self.registered = Registered(self)
         self.is_listening = False
         self.listening_thread = None
 
@@ -39,6 +43,30 @@ class Client:
         """
         return []
 
+    def register(
+            self, chats=None, msg_types=None,
+            except_self=True, run_async=True, enabled=True
+    ):
+        """
+        装饰器：用于注册消息配置
+
+        :param chats: 消息所在的聊天对象：单个或列表形式的多个聊天对象或聊天类型，为空时匹配所有聊天对象
+        :param msg_types: 消息的类型：单个或列表形式的多个消息类型，为空时匹配所有消息类型 (SYSTEM 类消息除外)
+        :param except_self: 排除由自己发送的消息
+        :param run_async: 是否异步执行所配置的函数：可提高响应速度
+        :param enabled: 当前配置的默认开启状态，可事后动态开启或关闭
+        """
+
+        def do_register(func):
+            self.registered.append(MessageConfig(
+                client=self, func=func, chats=chats, msg_types=msg_types,
+                except_self=except_self, run_async=run_async, enabled=enabled
+            ))
+
+            return func
+
+        return do_register
+
     def start(self):
         """
         开始消息监听和处理
@@ -54,6 +82,7 @@ class Client:
         停止消息监听和处理
         :return:
         """
+        # todo
         pass
 
     def join(self):
@@ -66,9 +95,11 @@ class Client:
 
     def _listen(self):
         try:
-            logger.info('{}: started listen'.format(self))
             self.is_listening = True
+            logger.info('{}: started listen'.format(self))
+
             asyncio.set_event_loop(loop)
+            WebSocketClientEngine.set_server_url(self.server_url)
             ws_engine = WebSocketClientEngine(event_loop=loop)
 
             # fixme For debug usage
@@ -113,6 +144,7 @@ class Client:
                 except:
                     logger.exception('an error occurred in {}.'.format(config.func))
 
+                    # 标记已读
                     # if self.auto_mark_as_read and not msg.type == SYSTEM and msg.sender != self.self:
                     #     from wxpy import ResponseError
                     #     try:

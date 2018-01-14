@@ -1,0 +1,173 @@
+01-14 16:42:42.011 15990-17226/? D/WECHAT-PROXY|xposed: messageContent is dummy message
+01-14 16:42:53.601 13415-17305/? I/Xposed: WENOP-DET         msgType      =   1
+                                           WENOP-DET         msgId        =   516
+                                           WENOP-DET         msgContent   =   ok！！
+                                           WENOP-DET         msgTalker    =   wenoptics
+                                           WENOP-DET         msgStatus    =   3
+                                           WENOP-DET         msgCreateTime=   1515919373000
+                                           WENOP-DET         msgIsSend    =   0
+                                           WENOP-DET         msgReserved  =   null
+                                           WENOP-DET         msgImgPath   =   null
+
+01-14 16:42:53.751 15990-17314/? D/WECHAT-PROXY|xposed: messageContent is ok！！
+01-14 16:44:10.081 13415-17469/? I/Xposed: WENOP-DET         msgType      =   1
+                                           WENOP-DET         msgId        =   517
+                                           WENOP-DET         msgContent   =   [胜利][胜利]
+                                           WENOP-DET         msgTalker    =   wenoptics
+                                           WENOP-DET         msgStatus    =   3
+                                           WENOP-DET         msgCreateTime=   1515919449000
+                                           WENOP-DET         msgIsSend    =   0
+                                           WENOP-DET         msgReserved  =   null
+                                           WENOP-DET         msgImgPath   =   null
+
+// 表情
+01-14 16:44:29.441 13415-17499/? I/Xposed: WENOP-DET         msgType      =   47
+                                           WENOP-DET         msgId        =   518
+                                           WENOP-DET         msgContent   =   wenoptics:0:1:f8a952e609c394527d24e9d07da25be6:<msg><emoji fromusername = "wenoptics" tousername = "Wenoptcs" type="1" idbuffer="media*#*0_0" md5="f8a952e609c394527d24e9d07da25be6" len = "8293" productid="" androidmd5="f8a952e609c394527d24e9d07da25be6" androidlen="8293" s60v3md5 = "f8a952e609c394527d24e9d07da25be6" s60v3len="8293" s60v5md5 = "f8a952e609c394527d24e9d07da25be6" s60v5len="8293" cdnurl = "http*#*//emoji.qpic.cn/wx_emoji/8zqmQXwhQWDDKLXhEHtUyDJVtXEu4k3ZTPAba0wJo6iaHtJ7RndibWbQ/" designerid = "" thumburl = "" encrypturl = "http*#*//emoji.qpic.cn/wx_emoji/xIBO3S6kNvKwsgia3IpsE8Mg79owrFoduMYZsb7yEROibkm7vn6OwX5Q/" aeskey= "e25e060cf852633ad08bd0c27f5742f8" externurl = "http*#*//emoji.qpic.cn/wx_emoji/vzyoCPAU2qW31zu9ut2QvJd5aabRlP2pOKN6mZvwSfov5Ax6CzxXSmz85uejYGwG/" externmd5 = "173eccadfc88e06706424a9ee482dc45" width= "46" height= "53" ></emoji> </msg>:0
+
+                                           WENOP-DET         msgTalker    =   wenoptics
+                                           WENOP-DET         msgStatus    =   3
+                                           WENOP-DET         msgCreateTime=   1515919469000
+                                           WENOP-DET         msgIsSend    =   0
+                                           WENOP-DET         msgReserved  =   null
+                                           WENOP-DET         msgImgPath   =   f8a952e609c394527d24e9d07da25be6
+
+// 表情2
+01-14 16:45:19.451 13415-17541/? I/Xposed: WENOP-DET         msgType      =   47
+                                           WENOP-DET         msgId        =   519
+                                           WENOP-DET         msgContent   =   wenoptics:0:0:95aa24d6c52c8aab441040dc052c7044:<msg><emoji fromusername = "wenoptics" tousername = "Wenoptcs" type="2" idbuffer="media*#*0_0" md5="95aa24d6c52c8aab441040dc052c7044" len = "11845" productid="com.tencent.xin.emoticon.person.stiker_1503577554c1f9559368df8f82" androidmd5="95aa24d6c52c8aab441040dc052c7044" androidlen="11845" s60v3md5 = "95aa24d6c52c8aab441040dc052c7044" s60v3len="11845" s60v5md5 = "95aa24d6c52c8aab441040dc052c7044" s60v5len="11845" cdnurl = "http*#*//mmbiz.qpic.cn/mmemoticon/ajNVdqHZLLC3ib2qk5SSCGOnvqrhFyPYpTN7iaowS1Q2qKcktFSrOJ9MWN3prhs6np/0" designerid = "" thumburl = "http*#*//mmbiz.qpic.cn/mmemoticon/ajNVdqHZLLC3ib2qk5SSCGEwr1lBbF9CrOaicUib6Um1UEvgrhuBsDiaACjbJpIeyhibV/0" encrypturl = "http*#*//emoji.qpic.cn/wx_emoji/13g3EaPPzoCILG0XjxPL8TslujPNictO4xSEcBNPqzx9uBtZlTVb51nEVgQy1iaGhG/" aeskey= "74c6d5799528700d101a0b47ac19827e" externurl = "http*#*//emoji.qpic.cn/wx_emoji/BjFVia5wnnOrrP31IYxPZqHnDQJjHx7xz4PGIlvdeHibGtfUqNUzZVK3q34Q4Wn8Ko/" externmd5 = "d2450968025463fbb2578b1eadd00222" width= "240" height= "240" ></emoji> </msg>:0
+
+                                           WENOP-DET         msgTalker    =   wenoptics
+                                           WENOP-DET         msgStatus    =   3
+                                           WENOP-DET         msgCreateTime=   1515919519000
+                                           WENOP-DET         msgIsSend    =   0
+                                           WENOP-DET         msgReserved  =   null
+                                           WENOP-DET         msgImgPath   =   95aa24d6c52c8aab441040dc052c7044
+
+// 图片
+01-14 16:46:17.601 13415-17585/? I/Xposed: WENOP-DET         msgType      =   3
+                                           WENOP-DET         msgId        =   520
+                                           WENOP-DET         msgContent   =   <?xml version="1.0"?>
+                                           <msg>
+                                           	<img aeskey="b47d236f267142df8378a49c641ea1dc" encryver="1" cdnthumbaeskey="b47d236f267142df8378a49c641ea1dc" cdnthumburl="304e0201000447304502010002044e35283f02032f57260204e151277702045a5b18d8042063383737316633663630386661666461666263326662306564626264393837660204010800010201000400" cdnthumblength="2050" cdnthumbheight="58" cdnthumbwidth="150" cdnmidheight="0" cdnmidwidth="0" cdnhdheight="0" cdnhdwidth="0" cdnmidimgurl="304e0201000447304502010002044e35283f02032f57260204e151277702045a5b18d8042063383737316633663630386661666461666263326662306564626264393837660204010800010201000400" length="21880" cdnbigimgurl="304e0201000447304502010002044e35283f02032f57260204e151277702045a5b18d8042063383737316633663630386661666461666263326662306564626264393837660204010800010201000400" hdlength="1969423" md5="345d1b842c3581790dd2f4e646b0b8ef" />
+                                           </msg>
+
+                                           WENOP-DET         msgTalker    =   wenoptics
+                                           WENOP-DET         msgStatus    =   3
+                                           WENOP-DET         msgCreateTime=   1515919577000
+                                           WENOP-DET         msgIsSend    =   0
+                                           WENOP-DET         msgReserved  =   null
+                                           WENOP-DET         msgImgPath   =   THUMBNAIL_DIRPATH://th_08c038de384690e78fde5ca7ef324d66
+
+// 文件（.docx文档，对方从微信Windows发送）
+01-14 16:47:18.921 13415-17662/? I/Xposed: WENOP-DET         msgType      =   49
+                                           WENOP-DET         msgId        =   521
+                                           WENOP-DET         msgContent   =   <?xml version="1.0"?>
+                                           <msg>
+                                           	<appmsg appid="wx6618f1cfc6c132f8" sdkver="0">
+                                           		<title>Meet Spot.docx</title>
+                                           		<des />
+                                           		<action>view</action>
+                                           		<type>6</type>
+                                           		<showtype>0</showtype>
+                                           		<content />
+                                           		<url />
+                                           		<dataurl />
+                                           		<lowurl />
+                                           		<lowdataurl />
+                                           		<recorditem><![CDATA[]]></recorditem>
+                                           		<thumburl />
+                                           		<extinfo />
+                                           		<sourceusername />
+                                           		<sourcedisplayname />
+                                           		<commenturl />
+                                           		<appattach>
+                                           			<totallen>19741</totallen>
+                                           			<attachid>@cdn_304e0201000447304502010002044e35283f02032f57260204e151277702045a5b1916042030383738343037383233363930643665396666636437633266313765316431360204010800050201000400_d3138c0b3be744459d6b77563fae1431_1</attachid>
+                                           			<emoticonmd5 />
+                                           			<fileext>docx</fileext>
+                                           			<cdnattachurl>304e0201000447304502010002044e35283f02032f57260204e151277702045a5b1916042030383738343037383233363930643665396666636437633266313765316431360204010800050201000400</cdnattachurl>
+                                           			<aeskey>d3138c0b3be744459d6b77563fae1431</aeskey>
+                                           			<encryver>1</encryver>
+                                           		</appattach>
+                                           		<md5>264748f4eb4dbace04333383193d679a</md5>
+                                           	</appmsg>
+                                           	<fromusername>wenoptics</fromusername>
+                                           	<scene>0</scene>
+                                           	<appinfo>
+                                           		<version>7</version>
+                                           		<appname>微信电脑版</appname>
+                                           	</appinfo>
+                                           	<commenturl></commenturl>
+                                           </msg>
+
+                                           WENOP-DET         msgTalker    =   wenoptics
+                                           WENOP-DET         msgStatus    =   3
+                                           WENOP-DET         msgCreateTime=   1515919638000
+                                           WENOP-DET         msgIsSend    =   0
+                                           WENOP-DET         msgReserved  =   ~SEMI_XML~��".msg.appmsg.appattach.cdnattachurl�� 304e0201000447304502010002044e35283f02032f57260204e151277702045a5b1916042030383738343037383233363930643665396666636437633266313765316431360204010800050201000400��.msg.appmsg.dataurl������.msg.appmsg.des������.msg.appmsg.thumburl������.msg.appmsg.type��6��.msg.appinfo��
+                                           	��.msg��
+                                           ��.msg.appmsg.lowurl������.msg.appmsg.appattach.encryver��1��.msg.fromusername��	wenoptics��.msg.appmsg.appattach.aeskey�� d3138c0b3be744459d6b77563fae1431��.msg.appinfo.version��7��.msg.appmsg.showtype��0��.msg.appmsg.$sdkver��0��.msg.appmsg��
+                                           	��.msg.appmsg.sourcedisplayname������.msg.appmsg.commenturl������.msg.appmsg.lowdataurl������!.msg.appmsg.appattach.emoticonmd5������.msg.appmsg.url������.msg.appmsg.appattach.fileext��docx��.msg.appmsg.appattach��
+                                           		��.msg.appmsg.md5�� 264748f4eb4dbace04333383193d679a��.msg.appmsg.appattach.totallen��19741��.msg.appinfo.appname��微信电脑版��.msg.appmsg.$appid��wx6618f1cfc6c132f8��.msg.commenturl������.msg.appmsg.content������.msg.appmsg.extinfo������.msg.appmsg.title��Meet Spot.docx��.msg.appmsg.sourceusername������.msg.appmsg.recorditem������
+                                           .msg.scene��0��.msg.appmsg.action��view��.msg.appmsg.appattach.attachid��È@cdn_304e0201000447304502010002044e35283f02032f57260204e151277702045a5b1916042030383738343037383233363930643665396666636437633266313765316431360204010800050201000400_d3138c0b3be744459d6b77563fae1431_1
+                                           WENOP-DET         msgImgPath   =   null
+
+
+// 链接（皇室战争好友邀请）
+01-14 16:49:18.111 13415-17714/? I/Xposed: WENOP-DET         msgType      =   49
+                                           WENOP-DET         msgId        =   522
+                                           WENOP-DET         msgContent   =   <?xml version="1.0"?>
+                                           <msg>
+                                           	<appmsg appid="" sdkver="0">
+                                           		<title>点击该链接添加为《部落冲突:皇室战争》好友！</title>
+                                           		<des>在《部落冲突:皇室战争》中打开链接或下载游戏。</des>
+                                           		<action>view</action>
+                                           		<type>5</type>
+                                           		<showtype>0</showtype>
+                                           		<content />
+                                           		<url>https://link.clashroyale.com/invite/friend/cn?tag=8YVGLC8C&amp;token=3kk7dc7h&amp;platform=iOS</url>
+                                           		<dataurl />
+                                           		<lowurl />
+                                           		<lowdataurl />
+                                           		<recorditem><![CDATA[]]></recorditem>
+                                           		<thumburl />
+                                           		<extinfo />
+                                           		<sourceusername />
+                                           		<sourcedisplayname />
+                                           		<commenturl />
+                                           		<appattach>
+                                           			<totallen>0</totallen>
+                                           			<attachid />
+                                           			<emoticonmd5 />
+                                           			<fileext />
+                                           			<cdnthumburl>304a0201000443304102010002049d7fc24802032f57260204a7c1346e02045a572ecf041c77656e6f7074696373315f6d73655f313531353636333035343135380204010800050201000400</cdnthumburl>
+                                           			<cdnthumblength>31472</cdnthumblength>
+                                           			<cdnthumbheight>340</cdnthumbheight>
+                                           			<cdnthumbwidth>340</cdnthumbwidth>
+                                           			<aeskey>49c8758d8366f03fa6b0a37c92692204</aeskey>
+                                           			<cdnthumbaeskey>49c8758d8366f03fa6b0a37c92692204</cdnthumbaeskey>
+                                           		</appattach>
+                                           	</appmsg>
+                                           	<fromusername>wenoptics</fromusername>
+                                           	<scene>0</scene>
+                                           	<appinfo>
+                                           		<version>1</version>
+                                           		<appname></appname>
+                                           	</appinfo>
+                                           	<commenturl></commenturl>
+                                           </msg>
+
+                                           WENOP-DET         msgTalker    =   wenoptics
+                                           WENOP-DET         msgStatus    =   3
+                                           WENOP-DET         msgCreateTime=   1515919757000
+                                           WENOP-DET         msgIsSend    =   0
+                                           WENOP-DET         msgReserved  =   ~SEMI_XML~��.msg.appmsg.dataurl������.msg.appmsg.des��在《部落冲突:皇室战争》中打开链接或下载游戏。��$.msg.appmsg.appattach.cdnthumbheight��340��.msg.appmsg.thumburl������.msg.appmsg.type��5��.msg.appinfo��
+                                           	��$.msg.appmsg.appattach.cdnthumblength��31472��.msg��
+                                           ��.msg.appmsg.lowurl������.msg.fromusername��	wenoptics��.msg.appmsg.appattach.aeskey�� 49c8758d8366f03fa6b0a37c92692204��.msg.appinfo.version��1��.msg.appmsg.showtype��0��.msg.appmsg.$sdkver��0��.msg.appmsg��
+                                           	��.msg.appmsg.sourcedisplayname������.msg.appmsg.commenturl������.msg.appmsg.lowdataurl������!.msg.appmsg.appattach.emoticonmd5������.msg.appmsg.url��Vhttps://link.clashroyale.com/invite/friend/cn?tag=8YVGLC8C&token=3kk7dc7h&platform=iOS��!.msg.appmsg.appattach.cdnthumburl��304a0201000443304102010002049d7fc24802032f57260204a7c1346e02045a572ecf041c77656e6f7074696373315f6d73655f313531353636333035343135380204010800050201000400��.msg.appmsg.appattach.fileext������.msg.appmsg.appattach��
+                                           		��$.msg.appmsg.appattach.cdnthumbaeskey�� 49c8758d8366f03fa6b0a37c92692204��.msg.appmsg.appattach.totallen��0��.msg.appinfo.appname������.msg.appmsg.$appid������#.msg.appmsg.appattach.cdnthumbwidth��340��.msg.commenturl������.msg.appmsg.content������.msg.appmsg.extinfo������.msg.appmsg.title��点击该链接添加为《部落冲突:皇室战争》好友！��.msg.appmsg.sourceusername������.msg.appmsg.recorditem������
+                                           .msg.scene��0��.msg.appmsg.action��view��.msg.appmsg.appattach.attachid����
+                                           WENOP-DET         msgImgPath   =   null
+
+

@@ -1,6 +1,6 @@
 import json
 
-from pyWechatProxyClient.model.Message import Message
+from pyWechatProxyClient.api.model.Message import Message
 
 
 def parse_message(str_message: str):

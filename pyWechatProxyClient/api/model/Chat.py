@@ -1,4 +1,4 @@
-from pyWechatProxyClient.model import Message
+from pyWechatProxyClient.api.model import Message
 
 
 class Chat:
@@ -7,7 +7,10 @@ class Chat:
         self.talker_id = talker_id
         self.username = ''
 
-    def send(self, content: Message=None):
+    def __str__(self):
+        return 'Chat<talker_id="{}">'.format(self.talker_id)
+
+    def send(self, content: Message =None):
         #todo
         pass
 

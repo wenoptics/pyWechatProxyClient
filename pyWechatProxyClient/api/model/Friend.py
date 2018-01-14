@@ -1,4 +1,4 @@
-from pyWechatProxyClient.model.Chat import Chat
+from pyWechatProxyClient.api.model.Chat import Chat
 
 
 class Friend(Chat):

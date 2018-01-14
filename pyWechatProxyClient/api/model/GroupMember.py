@@ -1,6 +1,3 @@
-from pyWechatProxyClient.model import Group
-
-
 class GroupMember:
     def __init__(self):
         self._display_name = None

@@ -1,15 +1,19 @@
-from pyWechatProxyClient.model.Chat import Chat
-from pyWechatProxyClient.model.Friend import Friend
-from pyWechatProxyClient.model.Group import Group
+from pyWechatProxyClient.api.model.Chat import Chat
+from pyWechatProxyClient.api.model.Friend import Friend
+from pyWechatProxyClient.api.model.Group import Group
 
 
-class Message:
+class Message(object):
     def __init__(self):
         self._sender = None
         self._text = None
         self._client = None
         self._type = None
         self._time = None
+
+    def __str__(self):
+        return 'Message<sender="{}",text="{}",time"{}">'\
+            .format(self.sender, self.text, self._time)
 
     def set_message(self,
                     talker_id='',

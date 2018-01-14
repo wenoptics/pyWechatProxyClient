@@ -2,6 +2,36 @@ import inspect
 import logging
 import threading
 
+import sys
+
+
+def force_encoded_string_output(func):
+
+    if sys.version_info.major < 3:
+
+        def _func(*args, **kwargs):
+            return func(*args, **kwargs).encode(sys.stdout.encoding or 'utf-8')
+
+        return _func
+
+    else:
+        return func
+
+
+def ensure_list(x, except_false=True):
+    """
+    若传入的对象不为列表，则转化为列表
+
+    :param x: 输入对象
+    :param except_false: None, False 等例外，会直接返回原值
+    :return: 列表，或 None, False 等
+    :rtype: list
+    """
+
+    if isinstance(x, (list, tuple)) or (not x and except_false):
+        return x
+    return [x]
+
 
 def start_new_thread(target, args=(), kwargs=None, daemon=True, use_caller_name=False):
     """
