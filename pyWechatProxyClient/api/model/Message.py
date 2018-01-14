@@ -1,3 +1,5 @@
+from pyWechatProxyClient.ServerApi import ServerApiConst, parse_url
+from pyWechatProxyClient.api.consts import TEXT
 from pyWechatProxyClient.api.model.Chat import Chat
 from pyWechatProxyClient.api.model.Friend import Friend
 from pyWechatProxyClient.api.model.Group import Group
@@ -5,23 +7,27 @@ from pyWechatProxyClient.api.model.Group import Group
 
 class Message(object):
     def __init__(self):
+        self._url = ''
+        self._member = None
         self._sender = None
-        self._text = None
+        self._text = ''
         self._client = None
         self._type = None
         self._time = None
 
     def __str__(self):
-        return 'Message<sender="{}",text="{}",time"{}">'\
+        return 'Message<sender="{}",text="{}",time"{}">' \
             .format(self.sender, self.text, self._time)
 
     def set_message(self,
                     talker_id='',
-                    time='',
-                    content=''
+                    time=None,
+                    content='',
+                    internal_type=-1
                     ):
         """
         Construct Wechat message
+        :param internal_type:
         :param content:
         :param time:
         :param talker_id:
@@ -32,13 +38,34 @@ class Message(object):
             # This is a message from group chat
             sender_group = Group(group_chat_id=talker_id)
             self._sender = sender_group
+
+            _split = content.split('\n')
+            # Extract member
+            member_id = _split[0]
+            member_id = member_id[:-1]
+            self._member = Chat(talker_id=member_id)
+
+            if len(_split) > 1:
+                content = '\n'.join(content.split('\n')[1:])
+            else:
+                content = ''
+
         else:
+            # This is a message from a `friend`
             sender_friend = Friend(friend_id=talker_id)
             self._sender = sender_friend
 
         self._time = time
 
-        # todo Set message property according to content
+        # Set message property according to content and the internal_type
+        if internal_type == ServerApiConst.INTERNAL_TYPE_TEXT:
+            self._type = TEXT
+            self._text = content
+        elif internal_type == ServerApiConst.INTERNAL_TYPE_SHARING:
+            # parse xml and find the `url` field
+            self._url = parse_url(content)
+
+        # todo elif ..
 
     @property
     def type(self) -> str:
@@ -77,7 +104,9 @@ class Message(object):
         消息的发送者 (群聊或是个人)
         :return:
         """
-        pass
+        return self._sender
+
+    chat = sender
 
     @property
     def client(self):
@@ -97,7 +126,7 @@ class Message(object):
         分享类消息中的网页 URL
         :return:
         """
-        pass
+        return self._url
 
     @property
     def member(self):
@@ -106,7 +135,14 @@ class Message(object):
         若消息来自其他聊天对象(非群聊)，则此属性为 None
         :return:
         """
-        pass
+        return self._member
+
+    @property
+    def create_time(self):
+        """
+        服务端发送时间
+        """
+        return self._time
 
     # --------------------------------
     # 回复方法

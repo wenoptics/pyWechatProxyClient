@@ -1,3 +1,4 @@
 
 
 SYSTEM = 'System'
+TEXT = 'Text'

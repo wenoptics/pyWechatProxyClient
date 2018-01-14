@@ -1,3 +1,4 @@
+// 文本消息 ------------------------------------------------------------------------------------------------------------
 01-14 16:42:42.011 15990-17226/? D/WECHAT-PROXY|xposed: messageContent is dummy message
 01-14 16:42:53.601 13415-17305/? I/Xposed: WENOP-DET         msgType      =   1
                                            WENOP-DET         msgId        =   516
@@ -9,6 +10,18 @@
                                            WENOP-DET         msgReserved  =   null
                                            WENOP-DET         msgImgPath   =   null
 
+// emoji----------------------------------------------------------------------------------------------------------------
+01-14 17:06:41.521 13415-18310/? I/Xposed: WENOP-DET         msgType      =   1
+                                           WENOP-DET         msgId        =   523
+                                           WENOP-DET         msgContent   =   ✌
+                                           WENOP-DET         msgTalker    =   wenoptics
+                                           WENOP-DET         msgStatus    =   3
+                                           WENOP-DET         msgCreateTime=   1515920800000
+                                           WENOP-DET         msgIsSend    =   0
+                                           WENOP-DET         msgReserved  =   null
+                                           WENOP-DET         msgImgPath   =   null
+
+// 文本消息（内置表情） ------------------------------------------------------------------------------------------------
 01-14 16:42:53.751 15990-17314/? D/WECHAT-PROXY|xposed: messageContent is ok！！
 01-14 16:44:10.081 13415-17469/? I/Xposed: WENOP-DET         msgType      =   1
                                            WENOP-DET         msgId        =   517
@@ -20,7 +33,7 @@
                                            WENOP-DET         msgReserved  =   null
                                            WENOP-DET         msgImgPath   =   null
 
-// 表情
+// 表情 ----------------------------------------------------------------------------------------------------------------
 01-14 16:44:29.441 13415-17499/? I/Xposed: WENOP-DET         msgType      =   47
                                            WENOP-DET         msgId        =   518
                                            WENOP-DET         msgContent   =   wenoptics:0:1:f8a952e609c394527d24e9d07da25be6:<msg><emoji fromusername = "wenoptics" tousername = "Wenoptcs" type="1" idbuffer="media*#*0_0" md5="f8a952e609c394527d24e9d07da25be6" len = "8293" productid="" androidmd5="f8a952e609c394527d24e9d07da25be6" androidlen="8293" s60v3md5 = "f8a952e609c394527d24e9d07da25be6" s60v3len="8293" s60v5md5 = "f8a952e609c394527d24e9d07da25be6" s60v5len="8293" cdnurl = "http*#*//emoji.qpic.cn/wx_emoji/8zqmQXwhQWDDKLXhEHtUyDJVtXEu4k3ZTPAba0wJo6iaHtJ7RndibWbQ/" designerid = "" thumburl = "" encrypturl = "http*#*//emoji.qpic.cn/wx_emoji/xIBO3S6kNvKwsgia3IpsE8Mg79owrFoduMYZsb7yEROibkm7vn6OwX5Q/" aeskey= "e25e060cf852633ad08bd0c27f5742f8" externurl = "http*#*//emoji.qpic.cn/wx_emoji/vzyoCPAU2qW31zu9ut2QvJd5aabRlP2pOKN6mZvwSfov5Ax6CzxXSmz85uejYGwG/" externmd5 = "173eccadfc88e06706424a9ee482dc45" width= "46" height= "53" ></emoji> </msg>:0
@@ -32,7 +45,7 @@
                                            WENOP-DET         msgReserved  =   null
                                            WENOP-DET         msgImgPath   =   f8a952e609c394527d24e9d07da25be6
 
-// 表情2
+// 表情2 ---------------------------------------------------------------------------------------------------------------
 01-14 16:45:19.451 13415-17541/? I/Xposed: WENOP-DET         msgType      =   47
                                            WENOP-DET         msgId        =   519
                                            WENOP-DET         msgContent   =   wenoptics:0:0:95aa24d6c52c8aab441040dc052c7044:<msg><emoji fromusername = "wenoptics" tousername = "Wenoptcs" type="2" idbuffer="media*#*0_0" md5="95aa24d6c52c8aab441040dc052c7044" len = "11845" productid="com.tencent.xin.emoticon.person.stiker_1503577554c1f9559368df8f82" androidmd5="95aa24d6c52c8aab441040dc052c7044" androidlen="11845" s60v3md5 = "95aa24d6c52c8aab441040dc052c7044" s60v3len="11845" s60v5md5 = "95aa24d6c52c8aab441040dc052c7044" s60v5len="11845" cdnurl = "http*#*//mmbiz.qpic.cn/mmemoticon/ajNVdqHZLLC3ib2qk5SSCGOnvqrhFyPYpTN7iaowS1Q2qKcktFSrOJ9MWN3prhs6np/0" designerid = "" thumburl = "http*#*//mmbiz.qpic.cn/mmemoticon/ajNVdqHZLLC3ib2qk5SSCGEwr1lBbF9CrOaicUib6Um1UEvgrhuBsDiaACjbJpIeyhibV/0" encrypturl = "http*#*//emoji.qpic.cn/wx_emoji/13g3EaPPzoCILG0XjxPL8TslujPNictO4xSEcBNPqzx9uBtZlTVb51nEVgQy1iaGhG/" aeskey= "74c6d5799528700d101a0b47ac19827e" externurl = "http*#*//emoji.qpic.cn/wx_emoji/BjFVia5wnnOrrP31IYxPZqHnDQJjHx7xz4PGIlvdeHibGtfUqNUzZVK3q34Q4Wn8Ko/" externmd5 = "d2450968025463fbb2578b1eadd00222" width= "240" height= "240" ></emoji> </msg>:0
@@ -44,7 +57,7 @@
                                            WENOP-DET         msgReserved  =   null
                                            WENOP-DET         msgImgPath   =   95aa24d6c52c8aab441040dc052c7044
 
-// 图片
+// 图片 ----------------------------------------------------------------------------------------------------------------
 01-14 16:46:17.601 13415-17585/? I/Xposed: WENOP-DET         msgType      =   3
                                            WENOP-DET         msgId        =   520
                                            WENOP-DET         msgContent   =   <?xml version="1.0"?>
@@ -59,7 +72,7 @@
                                            WENOP-DET         msgReserved  =   null
                                            WENOP-DET         msgImgPath   =   THUMBNAIL_DIRPATH://th_08c038de384690e78fde5ca7ef324d66
 
-// 文件（.docx文档，对方从微信Windows发送）
+// 文件（.docx文档，对方从微信Windows发送） ----------------------------------------------------------------------------
 01-14 16:47:18.921 13415-17662/? I/Xposed: WENOP-DET         msgType      =   49
                                            WENOP-DET         msgId        =   521
                                            WENOP-DET         msgContent   =   <?xml version="1.0"?>
@@ -114,7 +127,7 @@
                                            WENOP-DET         msgImgPath   =   null
 
 
-// 链接（皇室战争好友邀请）
+// 链接（皇室战争好友邀请） --------------------------------------------------------------------------------------------
 01-14 16:49:18.111 13415-17714/? I/Xposed: WENOP-DET         msgType      =   49
                                            WENOP-DET         msgId        =   522
                                            WENOP-DET         msgContent   =   <?xml version="1.0"?>
@@ -170,4 +183,14 @@
                                            .msg.scene��0��.msg.appmsg.action��view��.msg.appmsg.appattach.attachid����
                                            WENOP-DET         msgImgPath   =   null
 
-
+// 群聊消息 ------------------------------------------------------------------------------------------------------------
+01-14 17:07:43.091 13415-18371/? I/Xposed: WENOP-DET         msgType      =   1
+                                           WENOP-DET         msgId        =   524
+                                           WENOP-DET         msgContent   =   wenoptics:
+                                           [发呆]
+                                           WENOP-DET         msgTalker    =   8969945994@chatroom
+                                           WENOP-DET         msgStatus    =   3
+                                           WENOP-DET         msgCreateTime=   1515920862000
+                                           WENOP-DET         msgIsSend    =   0
+                                           WENOP-DET         msgReserved  =   null
+                                           WENOP-DET         msgImgPath   =   null

@@ -14,4 +14,5 @@ class Chat:
         #todo
         pass
 
-    
+    def __eq__(self, other: 'Chat'):
+        return self.talker_id == other.talker_id

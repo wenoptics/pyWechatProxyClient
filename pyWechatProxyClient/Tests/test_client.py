@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from pyWechatProxyClient.Client import Client
+from pyWechatProxyClient.api.model.Friend import Friend
 from pyWechatProxyClient.api.model.Message import Message
 
 
@@ -10,9 +11,11 @@ class TestClient(TestCase):
 
     def test_handle_message(self):
 
-        @self.client.register()
+        wen = Friend(friend_id='wenoptics')
+
+        @self.client.register(wen)
         def on_message(msg: Message):
-            print('on message! {}'.format(msg))
+            print('on wen\'s message! {}'.format(msg))
 
         self.client.start()
         self.client.join()

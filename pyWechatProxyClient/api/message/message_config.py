@@ -17,7 +17,7 @@ class MessageConfig(object):
 
     def __init__(
             self, client, func,
-            chats, msg_types, except_self,
+            chats, msg_types,
             run_async, enabled
     ):
         self.client = weakref.proxy(client)
@@ -25,7 +25,6 @@ class MessageConfig(object):
 
         self.chats = ensure_list(chats)
         self.msg_types = ensure_list(msg_types)
-        self.except_self = except_self
 
         self.run_async = run_async
         self._enabled = None

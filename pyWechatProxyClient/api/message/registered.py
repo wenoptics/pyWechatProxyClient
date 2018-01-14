@@ -30,7 +30,7 @@ class Registered(list):
 
         for conf in self[::-1]:
 
-            if not conf.enabled or (conf.except_self and msg.sender == self.client.self):
+            if not conf.enabled:
                 continue
 
             if conf.msg_types and msg.type not in conf.msg_types:
