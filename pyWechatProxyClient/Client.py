@@ -133,7 +133,7 @@ class Client:
             # will blocked here
             loop.run_until_complete(
                 asyncio.wait([
-                    self.ws_engine.connect_and_receive(),
+                    self.ws_engine.connect_and_receive_routine(),
                     self.ws_engine.send_routine(),
                     _receive(), _send()
                 ])

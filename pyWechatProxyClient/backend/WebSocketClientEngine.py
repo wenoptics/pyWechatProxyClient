@@ -28,8 +28,6 @@ class WebSocketClientEngine:
             event_loop = asyncio.get_event_loop()
         self.event_loop = event_loop
 
-        self.__should_stop = False
-
         self._onMessageHandler = []
         self.logger = logging.getLogger(__name__)
         self.timeout_check = 30
@@ -57,10 +55,10 @@ class WebSocketClientEngine:
 
     async def connect_and_receive_routine(self):
         # Reconnect loop
-        while not self.__should_stop:
+        while True:
             try:
                 ws = await self.get_connection()
-                self.logger.info('connect to server "{}"'.format(self.__server_url))
+                self.logger.info('connected to server "{}"'.format(self.__server_url))
             except:
                 self.logger.error('connect to server "{}" fail.'.format(self.__server_url))
                 ws = None
@@ -72,8 +70,6 @@ class WebSocketClientEngine:
                     msg = await asyncio.wait_for(ws.recv(), timeout=self.timeout_check)
                 except asyncio.TimeoutError:
                     # self.logger.debug('No data in {} seconds, checking the connection'.format(self.timeout_check))
-                    if self.__should_stop:
-                        break
                     try:
                         await asyncio.wait_for(ws.ping(), timeout=self.timeout_ping_pong)
                     except asyncio.TimeoutError:
@@ -92,23 +88,13 @@ class WebSocketClientEngine:
                             import traceback
                             logging.error('error occur when processing message. {}'.format(traceback.format_exc()))
 
-            if self.__should_stop:
-                break
             await asyncio.sleep(2)
             self.reset_connection()
             self.logger.info('retry to connect to server...')
 
-        self.logger.info('engine stopped.')
-
     def add_message_handler(self, handler):
         self._onMessageHandler.append(handler)
 
-    def start(self):
-        self.__should_stop = False
-        asyncio.set_event_loop(self.event_loop)
-        self.event_loop.run_until_complete(self.connect_and_receive_routine())
-
     def stop(self):
-        self.__should_stop = True
         self.logger.info('request engine stop')
         self.event_loop.stop()
