@@ -1,7 +1,8 @@
 import asyncio
 import logging
+import queue
 
-from pyWechatProxyClient.ServerApi import parse_message
+from pyWechatProxyClient.ServerApi import parse_message, make_message
 from pyWechatProxyClient.api.message.message_config import MessageConfig
 from pyWechatProxyClient.api.message.registered import Registered
 from pyWechatProxyClient.api.model.Message import Message
@@ -18,6 +19,8 @@ class Client:
         self.registered = Registered(self)
         self.is_listening = False
         self.listening_thread = None
+        self.ws_engine = None
+        self.send_message_queue = queue.Queue()
 
     @property
     def friends(self):
@@ -81,15 +84,15 @@ class Client:
         停止消息监听和处理
         :return:
         """
-        # todo
-        pass
+        self.is_listening = False
+        self.join()
 
     def join(self):
         """
         堵塞收消息进程
         :return:
         """
-        if (self.listening_thread):
+        if self.listening_thread:
             self.listening_thread.join()
 
     def _listen(self):
@@ -99,23 +102,41 @@ class Client:
 
             asyncio.set_event_loop(loop)
             WebSocketClientEngine.set_server_url(self.server_url)
-            ws_engine = WebSocketClientEngine(event_loop=loop)
+            self.ws_engine = WebSocketClientEngine(event_loop=loop)
 
             # fixme For debug usage
-            ws_engine.logger.addHandler(logging.StreamHandler())
-            ws_engine.logger.setLevel(logging.DEBUG)
+            self.ws_engine.logger.addHandler(logging.StreamHandler())
+            self.ws_engine.logger.setLevel(logging.DEBUG)
+
+            async def _send():
+                while self.is_listening:
+                    message = self.send_message_queue.get_nowait()
+                    if not message:
+                        await asyncio.sleep(0.5)
+                        continue
+
+                    message = make_message(message)
+                    await self.ws_engine.send_message_queue.put(message)
+
+                self.ws_engine.stop()
 
             async def _receive():
-                while True:
-                    message = await ws_engine.messageQueue.get()
+                while self.is_listening:
+                    message = await self.ws_engine.receive_message_queue.get()
                     wechat_message = parse_message(message)
-                    #print(wechat_message)
+                    # print(wechat_message)
                     if wechat_message:
                         self._process_message(wechat_message)
 
-            # blocked here
+                self.ws_engine.stop()
+
+            # will blocked here
             loop.run_until_complete(
-                asyncio.wait([ws_engine.run(), _receive()])
+                asyncio.wait([
+                    self.ws_engine.connect_and_receive(),
+                    self.ws_engine.send_routine(),
+                    _receive(), _send()
+                ])
             )
 
         finally:
@@ -126,7 +147,7 @@ class Client:
         """
         处理接收到的消息
         """
-
+        msg.client = self
         config = self.registered.get_config(msg)
 
         logger.debug('{}: new message (func: {}):\n{}'.format(
@@ -155,5 +176,6 @@ class Client:
                 start_new_thread(process, use_caller_name=True)
             else:
                 process()
+
 
 loop = asyncio.get_event_loop()

@@ -1,4 +1,3 @@
-from pyWechatProxyClient.ServerApi import ServerApiConst, parse_url
 from pyWechatProxyClient.api.consts import TEXT
 from pyWechatProxyClient.api.model.Chat import Chat
 from pyWechatProxyClient.api.model.Friend import Friend
@@ -57,6 +56,9 @@ class Message(object):
 
         self._time = time
 
+        # fixme I think these belong to somewhere else...
+        from pyWechatProxyClient.ServerApi import ServerApiConst, parse_url
+
         # Set message property according to content and the internal_type
         if internal_type == ServerApiConst.INTERNAL_TYPE_TEXT:
             self._type = TEXT
@@ -66,6 +68,9 @@ class Message(object):
             self._url = parse_url(content)
 
         # todo elif ..
+        else:
+            self._type = TEXT
+            self._text = content
 
     @property
     def type(self) -> str:
@@ -106,11 +111,21 @@ class Message(object):
         """
         return self._sender
 
+    @sender.setter
+    def sender(self, value):
+        self._sender = value
+
+
     chat = sender
 
     @property
     def client(self):
         return self._client
+
+    @client.setter
+    def client(self, value):
+        self._client = value
+        self.sender.client = value
 
     @property
     def text(self):
@@ -119,6 +134,10 @@ class Message(object):
         :return:
         """
         return self._text
+
+    @text.setter
+    def text(self, value):
+        self._text = value
 
     @property
     def url(self):

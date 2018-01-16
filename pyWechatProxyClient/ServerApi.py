@@ -1,8 +1,8 @@
 import json
-
 import datetime
-
 import re
+
+from pyWechatProxyClient.api.model.Message import Message
 
 
 def parse_message(str_message: str):
@@ -56,6 +56,14 @@ def parse_url(xml_str: str):
         import traceback
         print('parse_url failed. {}'.format(traceback.format_exc()))
         return None
+
+
+def make_message(msg: Message):
+    d = {
+        'sender': msg.sender.talker_id,
+        'content': msg.text
+    }
+    return json.dumps(d)
 
 
 class ServerApiConst:
