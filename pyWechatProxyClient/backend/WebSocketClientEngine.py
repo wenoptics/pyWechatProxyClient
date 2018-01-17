@@ -32,7 +32,7 @@ class WebSocketClientEngine:
         self.logger.error("on_message: " + error)
 
     def on_close(self, ws):
-        self.logger.info("### closed ###")
+        self.logger.info("connection closed.")
         self.ws = None
 
     def on_open(self, ws):

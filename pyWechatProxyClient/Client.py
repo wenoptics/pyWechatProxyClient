@@ -113,7 +113,9 @@ class Client:
             logger.info('{}: started send-queue checking.'.format(self))
             while self.is_running:
                 try:
-                    msg = self.send_message_queue.get()
+                    # Specify a timeout so that there is a chance for this thread to check `.is_running`
+                    #       otherwise it won't respond to the `.stop()` call
+                    msg = self.send_message_queue.get(timeout=1)
                 except queue.Empty:
                     continue
                 if msg is None:
