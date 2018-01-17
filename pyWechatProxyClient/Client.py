@@ -17,7 +17,6 @@ class Client:
 
         self.server_url = wx_proxy_server_url
         self.registered = Registered(self)
-        self.is_listening = False
         self.is_running = False
         self.listening_thread = None
         self.sending_thread = None
@@ -77,7 +76,7 @@ class Client:
         :return:
         """
         self.is_running = True
-        if self.is_listening:
+        if self.listening_thread:
             logger.warning('{} is already running, no need to start again.'.format(self))
         else:
             self.listening_thread = start_new_thread(self._listen)
@@ -89,7 +88,6 @@ class Client:
         停止消息监听和处理
         :return:
         """
-        self.is_listening = False
         self.is_running = False
         self.ws_engine.stop()
         self.join()
@@ -127,12 +125,11 @@ class Client:
                     logger.error('send message failed', e)
 
         finally:
-            logger.info('{}: stopped send-queue checking.'.format(self))
             self.sending_thread = None
+            logger.info('{}: stopped send-queue checking.'.format(self))
 
     def _listen(self):
         try:
-            self.is_listening = True
             logger.info('{}: started listen'.format(self))
 
             def _on_message(msg):
@@ -148,7 +145,6 @@ class Client:
             self.ws_engine.start_listen()
 
         finally:
-            self.is_listening = False
             self.listening_thread = None
             logger.info('{}: stopped listen'.format(self))
 

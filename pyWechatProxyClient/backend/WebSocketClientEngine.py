@@ -32,11 +32,11 @@ class WebSocketClientEngine:
         self.logger.error("on_message: " + error)
 
     def on_close(self, ws):
-        self.logger.info("connection closed.")
+        self.logger.debug("connection closed.")
         self.ws = None
 
     def on_open(self, ws):
-        self.logger.info("on_open")
+        self.logger.info("connected!")
 
     def start_listen(self):
         """
@@ -44,10 +44,10 @@ class WebSocketClientEngine:
         This is a blocking method
         :return:
         """
-        #websocket.enableTrace(True)
+        # websocket.enableTrace(True)
         self.__should_stop = False
         while self.retry_connect_on_close and not self.__should_stop:
-            self.logger.info("connecting...")
+            self.logger.info('...connecting to "{}"'.format(self.server_url))
             self.ws = websocket \
                 .WebSocketApp(self.server_url,
                               on_message=self.on_message,
