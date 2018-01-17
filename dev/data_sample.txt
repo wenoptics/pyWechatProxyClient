@@ -194,3 +194,7 @@
                                            WENOP-DET         msgIsSend    =   0
                                            WENOP-DET         msgReserved  =   null
                                            WENOP-DET         msgImgPath   =   null
+// 邮件提醒------------------------------------------------------------------------------------------------------------
+msgType=35
+"sender":"qqmail"
+

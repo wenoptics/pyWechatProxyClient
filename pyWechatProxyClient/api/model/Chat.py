@@ -5,6 +5,9 @@ class Chat:
         self.username = ''
         self.client = None
 
+    def set_client(self, v):
+        self.client = v
+
     def __str__(self):
         return 'Chat<talker_id="{}">'.format(self.talker_id)
 

@@ -1,4 +1,4 @@
-from pyWechatProxyClient.api.consts import TEXT
+from pyWechatProxyClient.api.consts import TEXT, SYSTEM
 from pyWechatProxyClient.api.model.Chat import Chat
 from pyWechatProxyClient.api.model.Friend import Friend
 from pyWechatProxyClient.api.model.Group import Group
@@ -66,8 +66,11 @@ class Message(object):
         elif internal_type == ServerApiConst.INTERNAL_TYPE_SHARING:
             # parse xml and find the `url` field
             self._url = parse_url(content)
+        elif internal_type == ServerApiConst.INTERNAL_TYPE_SYSTEM:
+            self._type = SYSTEM
+            self._text = content
 
-        # todo elif ..
+        # elif todo more elif ...
         else:
             self._type = TEXT
             self._text = content
