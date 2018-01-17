@@ -18,8 +18,10 @@ class Client:
         self.server_url = wx_proxy_server_url
         self.registered = Registered(self)
         self.is_listening = False
+        self.is_running = False
         self.listening_thread = None
-        self.ws_engine = None
+        self.sending_thread = None
+        self.ws_engine = WebSocketClientEngine(self.server_url)
         self.send_message_queue = queue.Queue()
 
     @property
@@ -74,10 +76,13 @@ class Client:
         开始消息监听和处理
         :return:
         """
+        self.is_running = True
         if self.is_listening:
             logger.warning('{} is already running, no need to start again.'.format(self))
         else:
-            self.listening_thread = start_new_thread(self._run)
+            self.listening_thread = start_new_thread(self._listen)
+        if not self.sending_thread:
+            self.sending_thread = start_new_thread(self._send)
 
     def stop(self):
         """
@@ -85,6 +90,8 @@ class Client:
         :return:
         """
         self.is_listening = False
+        self.is_running = False
+        self.ws_engine.stop()
         self.join()
 
     def join(self):
@@ -94,56 +101,53 @@ class Client:
         """
         if self.listening_thread:
             self.listening_thread.join()
+        if self.sending_thread:
+            self.sending_thread.join()
 
-    def _run(self):
+    def _send(self):
+        """
+        Constantly checking the sendQueue and send message if have one
+        :return:
+        """
+        try:
+            logger.info('{}: started send-queue checking.'.format(self))
+            while self.is_running:
+                try:
+                    msg = self.send_message_queue.get()
+                except queue.Empty:
+                    continue
+                if msg is None:
+                    continue
+                str_msg = make_message(msg)
+                try:
+                    self.ws_engine.send(str_msg)
+                except Exception as e:
+                    logger.error('send message failed', e)
+
+        finally:
+            logger.info('{}: stopped send-queue checking.'.format(self))
+            self.sending_thread = None
+
+    def _listen(self):
         try:
             self.is_listening = True
             logger.info('{}: started listen'.format(self))
 
-            asyncio.set_event_loop(loop)
-            WebSocketClientEngine.set_server_url(self.server_url)
-            self.ws_engine = WebSocketClientEngine(event_loop=loop)
+            def _on_message(msg):
+                wechat_message = parse_message(msg)
+                if wechat_message:
+                    self._process_message(wechat_message)
 
-            # fixme For debug usage
+            self.ws_engine.add_message_handler(_on_message)
+            # fixme ----- For debug usage -----
             self.ws_engine.logger.addHandler(logging.StreamHandler())
             self.ws_engine.logger.setLevel(logging.DEBUG)
 
-            async def _send():
-                while self.is_listening:
-                    try:
-                        message = self.send_message_queue.get_nowait()
-                    except queue.Empty:
-                        message = None
-                    if not message:
-                        await asyncio.sleep(0.5)
-                        continue
-
-                    message = make_message(message)
-                    await self.ws_engine.send_message_queue.put(message)
-
-                self.ws_engine.stop()
-
-            async def _receive():
-                while self.is_listening:
-                    message = await self.ws_engine.receive_message_queue.get()
-                    wechat_message = parse_message(message)
-                    # print(wechat_message)
-                    if wechat_message:
-                        self._process_message(wechat_message)
-
-                self.ws_engine.stop()
-
-            # will blocked here
-            loop.run_until_complete(
-                asyncio.wait([
-                    self.ws_engine.connect_and_receive_routine(),
-                    self.ws_engine.send_routine(),
-                    _receive(), _send()
-                ])
-            )
+            self.ws_engine.start_listen()
 
         finally:
             self.is_listening = False
+            self.listening_thread = None
             logger.info('{}: stopped listen'.format(self))
 
     def _process_message(self, msg: Message):
@@ -180,5 +184,3 @@ class Client:
             else:
                 process()
 
-
-loop = asyncio.get_event_loop()

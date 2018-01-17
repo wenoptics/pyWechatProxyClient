@@ -1,101 +1,69 @@
 import asyncio
 import logging
 
-import websockets
+# Use `websocket-client` now
+import websocket
 
 
-# TODO This class is totally a mess... fix this someday...
 class WebSocketClientEngine:
-    __server_url = 'ws://'  # Something like 'ws://192.168.1.161:5000/wechat'
-    __connection = None
-
-    @staticmethod
-    def set_server_url(url):
-        WebSocketClientEngine.__server_url = url
-        WebSocketClientEngine.reset_connection()
-
-    @staticmethod
-    async def get_connection():
-        if WebSocketClientEngine.__connection is None:
-            WebSocketClientEngine.__connection = await websockets.connect(WebSocketClientEngine.__server_url)
-        return WebSocketClientEngine.__connection
-
-    @staticmethod
-    def reset_connection():
-        WebSocketClientEngine.__connection = None
-
-    def __init__(self, event_loop=None):
-        if not event_loop:
-            event_loop = asyncio.get_event_loop()
-        self.event_loop = event_loop
-
-        self._onMessageHandler = []
+    def __init__(self, ws_url):
         self.logger = logging.getLogger(__name__)
-        self.timeout_check = 30
-        self.timeout_ping_pong = 5
-        self.receive_message_queue = asyncio.Queue()
-        self.send_message_queue = asyncio.Queue()
+        self.server_url = ws_url
+        self.retry_connect_on_close = True
         self.ws = None
 
-    async def send_routine(self):
-        while True:
-            try:
-                msg = await asyncio.wait_for(self.send_message_queue.get(), timeout=0.5)
-            except asyncio.TimeoutError:
-                continue
-            if not msg:
-                continue
-            self.logger.info('message to send in WebSocketClientEngine, msg=={}'.format(msg))
-            if self.ws:
-                try:
-                    await self.ws.send(msg)
-                except Exception:
-                    import traceback
-                    self.logger.error("send message failed")
-                    self.logger.error(traceback.format_exc())
-
-    async def connect_and_receive_routine(self):
-        # Reconnect loop
-        while True:
-            try:
-                ws = await self.get_connection()
-                self.logger.info('connected to server "{}"'.format(self.__server_url))
-            except:
-                self.logger.error('connect to server "{}" fail.'.format(self.__server_url))
-                ws = None
-            self.ws = ws
-
-            # Send message loop
-            while True:
-                try:
-                    msg = await asyncio.wait_for(ws.recv(), timeout=self.timeout_check)
-                except asyncio.TimeoutError:
-                    # self.logger.debug('No data in {} seconds, checking the connection'.format(self.timeout_check))
-                    try:
-                        await asyncio.wait_for(ws.ping(), timeout=self.timeout_ping_pong)
-                    except asyncio.TimeoutError:
-                        self.logger.error(
-                            'No response to ping in {} seconds, assuming server down.'.format(self.timeout_ping_pong))
-                        break
-                else:
-                    await self.receive_message_queue.put(msg)
-                    # print('received message in WebSocketClientEngine, msg=={}'.format(msg))
-                    self.logger.info('received message in WebSocketClientEngine, msg=={}'.format(msg))
-                    for handler in self._onMessageHandler:
-                        try:
-                            # todo Use async here?
-                            handler(msg)
-                        except:
-                            import traceback
-                            logging.error('error occur when processing message. {}'.format(traceback.format_exc()))
-
-            await asyncio.sleep(2)
-            self.reset_connection()
-            self.logger.info('retry to connect to server...')
+        self.__on_message_handler = []
+        self.__should_stop = False
 
     def add_message_handler(self, handler):
-        self._onMessageHandler.append(handler)
+        self.__on_message_handler.append(handler)
+
+    def on_message(self, ws, message):
+        self.logger.info("on_message: " + message)
+        for h in self.__on_message_handler:
+            try:
+                h(message)
+            except:
+                self.logger.error('error occurred when handle message with one handler')
+                import traceback
+                self.logger.error(traceback.format_exc())
+
+    def on_error(self, ws, error):
+        self.logger.error("on_message: " + error)
+
+    def on_close(self, ws):
+        self.logger.info("### closed ###")
+        self.ws = None
+
+    def on_open(self, ws):
+        self.logger.info("on_open")
+
+    def start_listen(self):
+        """
+        Connect to server and start listen.
+        This is a blocking method
+        :return:
+        """
+        #websocket.enableTrace(True)
+        self.__should_stop = False
+        while self.retry_connect_on_close and not self.__should_stop:
+            self.logger.info("connecting...")
+            self.ws = websocket \
+                .WebSocketApp(self.server_url,
+                              on_message=self.on_message,
+                              on_error=self.on_error,
+                              on_close=self.on_close)
+            self.ws.on_open = self.on_open
+            self.ws.run_forever()
+
+    def send(self, msg: str):
+        if self.ws is None:
+            raise RuntimeError('Websocket not connected yet!')
+        self.logger.info("sending message: " + msg)
+        self.ws.send(msg)
 
     def stop(self):
-        self.logger.info('request engine stop')
-        self.event_loop.stop()
+        if self.ws:
+            self.__should_stop = True
+            self.ws.close()
+        self.ws = None
