@@ -4,6 +4,7 @@ import logging
 import websockets
 
 
+# TODO This class is totally a mess... fix this someday...
 class WebSocketClientEngine:
     __server_url = 'ws://'  # Something like 'ws://192.168.1.161:5000/wechat'
     __connection = None

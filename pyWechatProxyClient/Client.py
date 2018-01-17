@@ -77,7 +77,7 @@ class Client:
         if self.is_listening:
             logger.warning('{} is already running, no need to start again.'.format(self))
         else:
-            self.listening_thread = start_new_thread(self._listen)
+            self.listening_thread = start_new_thread(self._run)
 
     def stop(self):
         """
@@ -95,7 +95,7 @@ class Client:
         if self.listening_thread:
             self.listening_thread.join()
 
-    def _listen(self):
+    def _run(self):
         try:
             self.is_listening = True
             logger.info('{}: started listen'.format(self))
@@ -110,7 +110,10 @@ class Client:
 
             async def _send():
                 while self.is_listening:
-                    message = self.send_message_queue.get_nowait()
+                    try:
+                        message = self.send_message_queue.get_nowait()
+                    except queue.Empty:
+                        message = None
                     if not message:
                         await asyncio.sleep(0.5)
                         continue
