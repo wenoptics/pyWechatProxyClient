@@ -1,7 +1,8 @@
 import logging
 import queue
+import threading
 
-from pyWechatProxyClient.ServerApi import parse_message, make_message
+from pyWechatProxyClient.serverApi import parse_message, make_message
 from pyWechatProxyClient.api.message.message_config import MessageConfig
 from pyWechatProxyClient.api.message.registered import Registered
 from pyWechatProxyClient.api.model.Message import Message
@@ -19,6 +20,7 @@ class Client:
         self.is_running = False
         self.listening_thread = None
         self.sending_thread = None
+        self.__stop_evt = threading.Event()
         self.ws_engine = WebSocketClientEngine(self.server_url)
         self.send_message_queue = queue.Queue()
 
@@ -88,6 +90,7 @@ class Client:
         :return:
         """
         self.is_running = False
+        self.__stop_evt.set()
         self.ws_engine.stop()
         self.join()
 
@@ -108,7 +111,7 @@ class Client:
         """
         try:
             logger.info('{}: started send-queue checking.'.format(self))
-            while self.is_running:
+            while not self.__stop_evt.is_set():
                 try:
                     # Specify a timeout so that there is a chance for this thread to check `.is_running`
                     #       otherwise it won't respond to the `.stop()` call

@@ -1,6 +1,8 @@
 import logging
 
 # Use `websocket-client` now
+import threading
+
 import websocket
 
 
@@ -12,7 +14,7 @@ class WebSocketClientEngine:
         self.ws = None
 
         self.__on_message_handler = []
-        self.__should_stop = False
+        self.__stop_evt = threading.Event()
 
     def add_message_handler(self, handler):
         self.__on_message_handler.append(handler)
@@ -44,8 +46,8 @@ class WebSocketClientEngine:
         :return:
         """
         # websocket.enableTrace(True)
-        self.__should_stop = False
-        while self.retry_connect_on_close and not self.__should_stop:
+        self.__stop_evt.clear()
+        while self.retry_connect_on_close and not self.__stop_evt.is_set():
             self.logger.info('...connecting to "{}"'.format(self.server_url))
             self.ws = websocket \
                 .WebSocketApp(self.server_url,
@@ -62,7 +64,7 @@ class WebSocketClientEngine:
         self.ws.send(msg)
 
     def stop(self):
+        self.__stop_evt.set()
         if self.ws:
-            self.__should_stop = True
             self.ws.close()
         self.ws = None

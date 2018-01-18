@@ -57,7 +57,7 @@ class Message(object):
         self._time = time
 
         # fixme I think these belong to somewhere else...
-        from pyWechatProxyClient.ServerApi import ServerApiConst, parse_url
+        from pyWechatProxyClient.serverApi import ServerApiConst, parse_url
 
         # Set message property according to content and the internal_type
         if internal_type == ServerApiConst.INTERNAL_TYPE_TEXT:
