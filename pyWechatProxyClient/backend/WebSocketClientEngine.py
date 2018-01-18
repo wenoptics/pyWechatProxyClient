@@ -1,14 +1,14 @@
 import logging
-
-# Use `websocket-client` now
 import threading
 
+# Use `websocket-client` now
 import websocket
+
+logger = logging.getLogger(__name__)
 
 
 class WebSocketClientEngine:
     def __init__(self, ws_url):
-        self.logger = logging.getLogger(__name__)
         self.server_url = ws_url
         self.retry_connect_on_close = True
         self.ws = None
@@ -20,24 +20,24 @@ class WebSocketClientEngine:
         self.__on_message_handler.append(handler)
 
     def _on_message(self, ws, message):
-        self.logger.info("on_message: " + message)
+        logger.info("on_message: " + message)
         for h in self.__on_message_handler:
             try:
                 h(message)
             except:
-                self.logger.error('error occurred when handle message with one handler')
+                logger.error('error occurred when handle message with one handler')
                 import traceback
-                self.logger.error(traceback.format_exc())
+                logger.error(traceback.format_exc())
 
     def _on_error(self, ws, error):
-        self.logger.error("on_message: " + error)
+        logger.error("on_message: " + error)
 
     def _on_close(self, ws):
-        self.logger.debug("connection closed.")
+        logger.info("connection closed.")
         self.ws = None
 
     def _on_open(self, ws):
-        self.logger.info("connected!")
+        logger.info("connected to server.")
 
     def start_listen(self):
         """
@@ -48,7 +48,7 @@ class WebSocketClientEngine:
         # websocket.enableTrace(True)
         self.__stop_evt.clear()
         while self.retry_connect_on_close and not self.__stop_evt.is_set():
-            self.logger.info('...connecting to "{}"'.format(self.server_url))
+            logger.info('connecting to "{}"'.format(self.server_url))
             self.ws = websocket \
                 .WebSocketApp(self.server_url,
                               on_message=self._on_message,
@@ -60,7 +60,7 @@ class WebSocketClientEngine:
     def send(self, msg: str):
         if self.ws is None:
             raise RuntimeError('Websocket not connected yet!')
-        self.logger.info("sending message: " + msg)
+        logger.info("sending message: " + msg)
         self.ws.send(msg)
 
     def stop(self):
