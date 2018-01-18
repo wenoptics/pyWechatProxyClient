@@ -4,6 +4,7 @@ class Chat:
         self.talker_id = talker_id
         self.username = ''
         self.client = None
+        self.name = talker_id # todo This is no supported by WechatProxy yet...
 
     def set_client(self, v):
         self.client = v
@@ -14,6 +15,9 @@ class Chat:
     def send(self, content, *args, **kwargs):
         if self.client is None:
             raise ValueError('No client bind to this chat yet.')
+
+        if not content:
+            return
 
         from pyWechatProxyClient.api.model.Message import Message
 

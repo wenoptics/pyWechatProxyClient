@@ -1,4 +1,4 @@
-from pyWechatProxyClient.api.consts import TEXT, SYSTEM
+from pyWechatProxyClient.api.consts import TEXT, SYSTEM, SHARING
 from pyWechatProxyClient.api.model.Chat import Chat
 from pyWechatProxyClient.api.model.Friend import Friend
 from pyWechatProxyClient.api.model.Group import Group
@@ -6,6 +6,7 @@ from pyWechatProxyClient.api.model.Group import Group
 
 class Message(object):
     def __init__(self):
+        self._is_at = False
         self._url = ''
         self._member = None
         self._sender = None
@@ -49,6 +50,8 @@ class Message(object):
             else:
                 content = ''
 
+            # todo self._is_at
+
         else:
             # This is a message from a `friend`
             sender_friend = Friend(friend_id=talker_id)
@@ -64,6 +67,7 @@ class Message(object):
             self._type = TEXT
             self._text = content
         elif internal_type == ServerApiConst.INTERNAL_TYPE_SHARING:
+            self._type = SHARING
             # parse xml and find the `url` field
             self._url = parse_url(content)
         elif internal_type == ServerApiConst.INTERNAL_TYPE_SYSTEM:
@@ -107,6 +111,15 @@ class Message(object):
         return self._type
 
     @property
+    def is_at(self):
+        """
+        当为群消息时，返回时候被@
+        :return:
+        """
+        raise NotImplementedError
+        return self._is_at
+
+    @property
     def sender(self) -> Chat:
         """
         消息的发送者 (群聊或是个人)
@@ -117,7 +130,6 @@ class Message(object):
     @sender.setter
     def sender(self, value):
         self._sender = value
-
 
     chat = sender
 

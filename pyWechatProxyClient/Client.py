@@ -2,6 +2,8 @@ import logging
 import queue
 import threading
 
+import time
+
 from pyWechatProxyClient.serverApi import parse_message, make_message
 from pyWechatProxyClient.api.message.message_config import MessageConfig
 from pyWechatProxyClient.api.message.registered import Registered
@@ -23,6 +25,9 @@ class Client:
         self.__stop_evt = threading.Event()
         self.ws_engine = WebSocketClientEngine(self.server_url)
         self.send_message_queue = queue.Queue()
+
+    def __str__(self):
+        return '<WechatProxyClient "{}">'.format(self.server_url)
 
     @property
     def friends(self):
@@ -96,7 +101,7 @@ class Client:
 
     def join(self):
         """
-        堵塞收消息进程
+        堵塞收发消息进程
         :return:
         """
         if self.listening_thread:
@@ -110,7 +115,7 @@ class Client:
         :return:
         """
         try:
-            logger.info('{}: started send-queue checking.'.format(self))
+            logger.info('{}: sending-queue checking started.'.format(self))
             while not self.__stop_evt.is_set():
                 try:
                     # Specify a timeout so that there is a chance for this thread to check `.is_running`
@@ -120,11 +125,24 @@ class Client:
                     continue
                 if msg is None:
                     continue
-                str_msg = make_message(msg)
                 try:
-                    self.ws_engine.send(str_msg)
+                    str_msg = make_message(msg)
                 except Exception as e:
-                    logger.error('send message failed', e)
+                    logger.error('Make message failed:', e)
+                from websocket._exceptions import WebSocketConnectionClosedException
+                while str_msg:
+                    # Wait socket loop
+                    try:
+                        self.ws_engine.send(str_msg)
+                        break
+                    except WebSocketConnectionClosedException:
+                        time.sleep(1)
+                        logger.debug('retry sending message...')
+                        continue
+                    except Exception as e:
+                        logger.error('send message failed', e)
+                        break
+                # Still in _send main loop
 
         finally:
             self.sending_thread = None
@@ -132,7 +150,7 @@ class Client:
 
     def _listen(self):
         try:
-            logger.info('{}: started listen'.format(self))
+            logger.info('{}: started listen wechat messages'.format(self))
 
             def _on_message(msg):
                 wechat_message = parse_message(msg)
@@ -150,7 +168,7 @@ class Client:
 
         finally:
             self.listening_thread = None
-            logger.info('{}: stopped listen'.format(self))
+            logger.info('{}: stopped listen wechat messages'.format(self))
 
     def _process_message(self, msg: Message):
         """
