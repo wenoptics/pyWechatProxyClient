@@ -2,6 +2,7 @@ import logging
 import threading
 
 # Use `websocket-client` now
+import time
 import websocket
 
 logger = logging.getLogger(__name__)
@@ -20,7 +21,7 @@ class WebSocketClientEngine:
         self.__on_message_handler.append(handler)
 
     def _on_message(self, ws, message):
-        logger.info("on_message: " + message)
+        logger.info("websocket on_message: " + message)
         for h in self.__on_message_handler:
             try:
                 h(message)
@@ -30,14 +31,14 @@ class WebSocketClientEngine:
                 logger.error(traceback.format_exc())
 
     def _on_error(self, ws, error):
-        logger.error("on_message: " + error)
+        logger.error("on websocket error: " + str(error))
 
     def _on_close(self, ws):
-        logger.info("connection closed.")
+        logger.info("websocket connection closed.")
         self.ws = None
 
     def _on_open(self, ws):
-        logger.info("connected to server.")
+        logger.info("websocket connected to server.")
 
     def start_listen(self):
         """
@@ -56,11 +57,12 @@ class WebSocketClientEngine:
                               on_close=self._on_close)
             self.ws.on_open = self._on_open
             self.ws.run_forever()
+            time.sleep(1)
 
     def send(self, msg: str):
         if self.ws is None:
             raise RuntimeError('Websocket not connected yet!')
-        logger.info("sending message: " + msg)
+        logger.info("websocket sending message: " + msg)
         self.ws.send(msg)
 
     def stop(self):

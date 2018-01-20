@@ -10,5 +10,5 @@ setup(
     license='',
     author='Wenoptk',
     author_email='',
-    description='dedicated python client for WechatProxy'
+    description='Dedicated python client for WechatProxy'
 )

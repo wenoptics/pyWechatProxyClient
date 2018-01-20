@@ -1,4 +1,4 @@
-from pyWechatProxyClient.api.consts import TEXT, SYSTEM, SHARING
+from pyWechatProxyClient.api.consts import TEXT, SYSTEM, SHARING, STICKER, PICTURE
 from pyWechatProxyClient.api.model.Chat import Chat
 from pyWechatProxyClient.api.model.Friend import Friend
 from pyWechatProxyClient.api.model.Group import Group
@@ -73,10 +73,16 @@ class Message(object):
         elif internal_type == ServerApiConst.INTERNAL_TYPE_SYSTEM:
             self._type = SYSTEM
             self._text = content
+        elif internal_type == ServerApiConst.INTERNAL_TYPE_STICKER:
+            self._type = STICKER
+            self._text = content
+        elif internal_type == ServerApiConst.INTERNAL_TYPE_PHOTO:
+            self._type = PICTURE
+            self._text = content
 
         # elif todo more elif ...
         else:
-            self._type = TEXT
+            self._type = SHARING  # fixme
             self._text = content
 
     @property
