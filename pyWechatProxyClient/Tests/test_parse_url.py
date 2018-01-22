@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pyWechatProxyClient.ServerApi import parse_url
+from pyWechatProxyClient.serverApi import parse_url
 
 xml_str = \
 """

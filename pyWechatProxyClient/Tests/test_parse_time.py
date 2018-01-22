@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pyWechatProxyClient.ServerApi import parse_time
+from pyWechatProxyClient.serverApi import parse_time
 
 
 class TestParse_time(TestCase):
