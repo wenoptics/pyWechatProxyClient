@@ -4,6 +4,7 @@ import threading
 
 import time
 
+from pyWechatProxyClient.api.consts import SYSTEM
 from pyWechatProxyClient.serverApi import parse_message, make_message
 from pyWechatProxyClient.api.message.message_config import MessageConfig
 from pyWechatProxyClient.api.message.registered import Registered
@@ -25,6 +26,7 @@ class Client:
         self.__stop_evt = threading.Event()
         self.ws_engine = WebSocketClientEngine(self.server_url)
         self.send_message_queue = queue.Queue()
+        self.__system_message_handler = None
 
     def __str__(self):
         return '<WechatProxyClient "{}">'.format(self.server_url)
@@ -75,6 +77,18 @@ class Client:
             return func
 
         return do_register
+
+    def set_system_message_handler(self, handler):
+        """
+        收到系统消息的callback
+        :param handler: 原型：
+            yourCallback(client: Client, message: Message)
+        :return:
+        """
+        import inspect
+        if not inspect.isfunction(handler):
+            raise ValueError('handler is not function')
+        self.__system_message_handler = handler
 
     def start(self):
         """
@@ -175,6 +189,12 @@ class Client:
         处理接收到的消息
         """
         msg.client = self
+
+        # On system message:
+        if msg.type == SYSTEM:
+            if self.__system_message_handler is not None:
+                self.__system_message_handler(self, msg)
+
         config = self.registered.get_config(msg)
 
         logger.debug('{}: new message (func: {}):\n{}'.format(

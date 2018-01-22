@@ -34,23 +34,29 @@ class Message(object):
         :return:
         """
 
+        # fixme I think these belong to somewhere else...
+        from pyWechatProxyClient.serverApi import ServerApiConst, parse_url
+
         if talker_id.endswith('@chatroom'):
             # This is a message from group chat
             sender_group = Group(group_chat_id=talker_id)
             self._sender = sender_group
 
-            _split = content.split('\n')
-            # Extract member
-            member_id = _split[0]
-            member_id = member_id[:-1]
-            self._member = Chat(talker_id=member_id)
-
-            if len(_split) > 1:
-                content = '\n'.join(content.split('\n')[1:])
+            if internal_type == ServerApiConst.INTERNAL_TYPE_SYSTEM:
+                pass
             else:
-                content = ''
+                _split = content.split('\n')
+                # Extract member
+                member_id = _split[0]
+                member_id = member_id[:-1]
+                self._member = Chat(talker_id=member_id)
 
-            # todo self._is_at
+                if len(_split) > 1:
+                    content = '\n'.join(content.split('\n')[1:])
+                else:
+                    content = ''
+
+                # todo self._is_at
 
         else:
             # This is a message from a `friend`
@@ -58,9 +64,6 @@ class Message(object):
             self._sender = sender_friend
 
         self._time = time
-
-        # fixme I think these belong to somewhere else...
-        from pyWechatProxyClient.serverApi import ServerApiConst, parse_url
 
         # Set message property according to content and the internal_type
         if internal_type == ServerApiConst.INTERNAL_TYPE_TEXT:
