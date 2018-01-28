@@ -173,10 +173,10 @@ class Client:
 
             self.ws_engine.add_message_handler(_on_message)
 
-            # fixme ----- For debug usage -----
-            from pyWechatProxyClient.backend.WebSocketClientEngine import logger as engine_logger
-            engine_logger.addHandler(logging.StreamHandler())
-            engine_logger.setLevel(logging.DEBUG)
+            # ----- For debug usage -----
+            # from pyWechatProxyClient.backend.WebSocketClientEngine import logger as engine_logger
+            # engine_logger.addHandler(logging.StreamHandler())
+            # engine_logger.setLevel(logging.DEBUG)
 
             self.ws_engine.start_listen()
 

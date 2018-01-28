@@ -49,7 +49,7 @@ class MessageConfig(object):
     def __repr__(self):
         return '<{}: {}: {} ({}{})>'.format(
             self.__class__.__name__,
-            self.client.self.name,
+            self.client.server_url,
             self.func.__name__,
             'Enabled' if self.enabled else 'Disabled',
             ', Async' if self.run_async else '',
@@ -58,7 +58,7 @@ class MessageConfig(object):
     def __unicode__(self):
         return '<{}: {}: {} ({}{})>'.format(
             self.__class__.__name__,
-            self.client.self.name,
+            self.client.server_url,
             self.func.__name__,
             'Enabled' if self.enabled else 'Disabled',
             ', Async' if self.run_async else '',
