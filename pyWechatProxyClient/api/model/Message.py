@@ -160,8 +160,8 @@ class Message(object):
         return self._text
 
     @text.setter
-    def text(self, value):
-        self._text = value
+    def text(self, value: str):
+        self._text = str(value)
 
     @property
     def url(self):

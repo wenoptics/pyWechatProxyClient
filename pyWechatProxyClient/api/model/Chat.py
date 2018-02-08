@@ -4,13 +4,16 @@ class Chat:
         self.talker_id = talker_id
         self.username = ''
         self.client = None
-        self.name = talker_id # todo This is no supported by WechatProxy yet...
+        self.name = talker_id  # todo This is no supported by WechatProxy yet... use _id now
 
     def set_client(self, v):
         self.client = v
 
     def __str__(self):
-        return 'Chat<talker_id="{}">'.format(self.talker_id)
+        return '{}<talker_id="{}">'.format(self.__class__.__name__, self.talker_id)
+
+    def __repr__(self):
+        return self.__str__()
 
     def send(self, content, *args, **kwargs):
         if self.client is None:
@@ -27,7 +30,7 @@ class Chat:
             msg.text = content
             self.client.send_message_queue.put(msg)
         else:
-            self.client.send_message_queue.put(content)
+            self.client.send_message_queue.put(str(content))
 
     def __eq__(self, other: 'Chat'):
         return self.talker_id == other.talker_id
