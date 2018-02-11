@@ -21,7 +21,7 @@ class WebSocketClientEngine:
         self.__on_message_handler.append(handler)
 
     def _on_message(self, ws, message):
-        logger.info("websocket on_message: " + message)
+        logger.info("websocket on_message: %s", str(message).encode())
         for h in self.__on_message_handler:
             try:
                 h(message)
@@ -31,7 +31,7 @@ class WebSocketClientEngine:
                 logger.error(traceback.format_exc())
 
     def _on_error(self, ws, error):
-        logger.error("on websocket error: " + str(error))
+        logger.error("on websocket error: %s", str(error))
 
     def _on_close(self, ws):
         logger.info("websocket connection closed.")
@@ -49,7 +49,7 @@ class WebSocketClientEngine:
         # websocket.enableTrace(True)
         self.__stop_evt.clear()
         while self.retry_connect_on_close and not self.__stop_evt.is_set():
-            logger.info('connecting to "{}"'.format(self.server_url))
+            logger.info('connecting to "%s"', self.server_url)
             self.ws = websocket \
                 .WebSocketApp(self.server_url,
                               on_message=self._on_message,
@@ -62,7 +62,7 @@ class WebSocketClientEngine:
     def send(self, msg: str):
         if self.ws is None:
             raise RuntimeError('Websocket not connected yet!')
-        logger.info("websocket sending message: " + msg)
+        logger.info("websocket sending message: %s", msg.encode())
         self.ws.send(msg)
 
     def stop(self):

@@ -21,6 +21,9 @@ class Message(object):
 
     def set_message(self,
                     talker_id='',
+                    talker_nickname='',
+                    chatroom_talkerid='',
+                    chatroom_talker_nickname='',
                     time=None,
                     content='',
                     internal_type=-1
@@ -39,28 +42,19 @@ class Message(object):
 
         if talker_id.endswith('@chatroom'):
             # This is a message from group chat
-            sender_group = Group(group_chat_id=talker_id)
+            sender_group = Group(group_chat_id=talker_id, groupname=talker_nickname)
             self._sender = sender_group
 
             if internal_type == ServerApiConst.INTERNAL_TYPE_SYSTEM:
                 pass
             else:
-                _split = content.split('\n')
                 # Extract member
-                member_id = _split[0]
-                member_id = member_id[:-1]
-                self._member = Chat(talker_id=member_id)
-
-                if len(_split) > 1:
-                    content = '\n'.join(content.split('\n')[1:])
-                else:
-                    content = ''
+                self._member = Chat(talker_id=chatroom_talkerid, nickname=chatroom_talker_nickname)
 
                 # todo self._is_at
-
         else:
             # This is a message from a `friend`
-            sender_friend = Friend(friend_id=talker_id)
+            sender_friend = Friend(friend_id=talker_id, nickname=talker_nickname)
             self._sender = sender_friend
 
         self._time = time

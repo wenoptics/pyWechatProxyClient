@@ -23,7 +23,10 @@ def parse_message(str_message: str):
             talker_id=d_msg.get('sender'),
             time=time,
             content=d_msg.get('content'),
-            internal_type=d_msg.get('type')
+            internal_type=d_msg.get('type'),
+            talker_nickname=d_msg.get('senderNickname'),
+            chatroom_talkerid=d_msg.get('chatroomSender'),
+            chatroom_talker_nickname=d_msg.get('chatroomSenderNickname'),
         )
         return wx_message
     except:

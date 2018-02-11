@@ -141,8 +141,8 @@ class Client:
                     continue
                 try:
                     str_msg = make_message(msg)
-                except Exception as e:
-                    logger.error('Make message failed:', e)
+                except:
+                    logger.error('Make message failed:', exc_info=True)
                 from websocket._exceptions import WebSocketConnectionClosedException
                 while str_msg:
                     # Wait socket loop
@@ -153,10 +153,10 @@ class Client:
                         time.sleep(1)
                         logger.debug('retry sending message...')
                         continue
-                    except Exception as e:
-                        logger.error('send message failed', e)
+                    except:
+                        logger.error('send message failed', exc_info=True)
                         break
-                # Still in _send main loop
+            # end of _send main loop
 
         finally:
             self.sending_thread = None
