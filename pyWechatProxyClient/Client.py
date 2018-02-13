@@ -139,6 +139,7 @@ class Client:
                     continue
                 if msg is None:
                     continue
+                str_msg = None
                 try:
                     str_msg = make_message(msg)
                 except:

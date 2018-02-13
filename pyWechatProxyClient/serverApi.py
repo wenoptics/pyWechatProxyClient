@@ -1,8 +1,15 @@
+import base64
 import json
 import datetime
+import logging
 import re
 
+import os
+
+from pyWechatProxyClient.api.consts import PICTURE
 from pyWechatProxyClient.api.model.Message import Message
+
+logger = logging.getLogger(__name__)
 
 
 def parse_message(str_message: str):
@@ -62,9 +69,21 @@ def parse_url(xml_str: str):
 
 
 def make_message(msg: Message):
+    
+    assert msg.sender
+
+    content = msg.text
+    if msg.type == PICTURE:
+        # Decode the image data with base64
+        assert os.path.isfile(msg.text)
+        content = base64.b64encode(open(msg.text, 'rb').read()).decode()
+        logger.debug('encoded string len==%d', len(content))
+
     d = {
         'sender': msg.sender.talker_id,
-        'content': msg.text
+        'content': content,
+        # Currently only support IMAGE or TEXT
+        'type': ServerApiConst.API_IMAGE_ONLY if msg.type == PICTURE else ServerApiConst.API_TEXT_ONLY
     }
     return json.dumps(d)
 
@@ -75,3 +94,6 @@ class ServerApiConst:
     INTERNAL_TYPE_SHARING = 49
     INTERNAL_TYPE_STICKER = 47
     INTERNAL_TYPE_SYSTEM = 10000
+
+    API_TEXT_ONLY = 0
+    API_IMAGE_ONLY = 1

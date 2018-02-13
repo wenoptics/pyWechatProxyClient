@@ -1,3 +1,5 @@
+import os
+
 from pyWechatProxyClient.api.consts import TEXT, SYSTEM, SHARING, STICKER, PICTURE
 from pyWechatProxyClient.api.model.Chat import Chat
 from pyWechatProxyClient.api.model.Friend import Friend
@@ -5,14 +7,14 @@ from pyWechatProxyClient.api.model.Group import Group
 
 
 class Message(object):
-    def __init__(self):
+    def __init__(self, type_=TEXT):
         self._is_at = False
         self._url = ''
         self._member = None
         self._sender = None
         self._text = ''
         self._client = None
-        self._type = None
+        self._type = type_
         self._time = None
 
     def __str__(self):
@@ -155,6 +157,8 @@ class Message(object):
 
     @text.setter
     def text(self, value: str):
+        if self.type == PICTURE:
+            assert os.path.isfile(value)
         self._text = str(value)
 
     @property

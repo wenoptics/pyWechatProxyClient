@@ -32,13 +32,16 @@ class Chat:
 
         from pyWechatProxyClient.api.model.Message import Message
 
-        if not isinstance(content, Message):
+        if isinstance(content, Message):
+            if content.sender:
+                assert content.sender == self
+            content.sender = self
+            self.client.send_message_queue.put(content)
+        else:
             msg = Message()
             msg.sender = self
             msg.text = content
             self.client.send_message_queue.put(msg)
-        else:
-            self.client.send_message_queue.put(str(content))
 
     def __eq__(self, other: 'Chat'):
         return self.talker_id == other.talker_id
