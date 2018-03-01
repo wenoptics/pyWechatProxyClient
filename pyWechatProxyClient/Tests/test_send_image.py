@@ -40,10 +40,17 @@ class MyTestCase(unittest.TestCase):
         ]
         for i in img_list:
             img_msg = Message(PICTURE)
-            img_msg.text = i
+            img_msg.set_image_path(i)
             wen.send(img_msg)
 
+        # Test send raw
+        img = open('./dataset/2.png', 'rb').read()
+        img_msg = Message(PICTURE)
+        img_msg.set_image_data(img)
+        wen.send(img_msg)
+
         self.client.join()
+
 
 
 

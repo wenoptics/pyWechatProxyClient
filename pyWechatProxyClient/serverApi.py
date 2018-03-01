@@ -74,9 +74,23 @@ def make_message(msg: Message):
 
     content = msg.text
     if msg.type == PICTURE:
-        # Decode the image data with base64
-        assert os.path.isfile(msg.text)
-        content = base64.b64encode(open(msg.text, 'rb').read()).decode()
+        ERR = 'invalid image data, please set image data with `set_image_path()` or `set_image_data()`'
+        if type(msg.raw_content) is not dict:
+            raise ValueError(ERR)
+
+        rawdata = msg.raw_content.get('raw')
+        path = msg.raw_content.get('path')
+
+        if rawdata:
+            pass
+        elif path:
+            assert os.path.isfile(path)
+            rawdata = open(path, 'rb').read()
+        else:
+            raise ValueError(ERR)
+
+        # Encode the image data with base64
+        content = base64.b64encode(rawdata).decode()
         logger.debug('encoded string len==%d', len(content))
 
     d = {

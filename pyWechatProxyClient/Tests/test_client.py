@@ -20,7 +20,7 @@ class TestClient(TestCase):
 
         @self.client.register(wen)
         def on_message(msg: Message):
-            print('on wen\'s message! {}'.format(msg))
+            print("on Wen's message '{}'".format(msg.text))
 
             if msg.text == '#stop':
                 print("stop called")

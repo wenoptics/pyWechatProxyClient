@@ -16,6 +16,7 @@ class Message(object):
         self._client = None
         self._type = type_
         self._time = None
+        self.raw_content = None
 
     def __str__(self):
         return 'Message<sender="{}",text="{}",time"{}">' \
@@ -83,6 +84,14 @@ class Message(object):
         else:
             self._type = SHARING  # fixme
             self._text = content
+
+    def set_image_path(self, path: str):
+        self.raw_content = {'path': path}
+        assert os.path.isfile(path)
+
+    def set_image_data(self, data):
+        assert data is not None
+        self.raw_content = {'raw': data}
 
     @property
     def type(self) -> str:
@@ -157,8 +166,6 @@ class Message(object):
 
     @text.setter
     def text(self, value: str):
-        if self.type == PICTURE:
-            assert os.path.isfile(value)
         self._text = str(value)
 
     @property
