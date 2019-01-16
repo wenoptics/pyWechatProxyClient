@@ -1,4 +1,5 @@
 import os
+from typing import Union
 
 from pyWechatProxyClient.api.consts import TEXT, SYSTEM, SHARING, STICKER, PICTURE
 from pyWechatProxyClient.api.model.Chat import Chat
@@ -10,7 +11,7 @@ class Message(object):
     def __init__(self, type_=TEXT):
         self._is_at = False
         self._url = ''
-        self._member = None
+        self._member: Union[Chat, None] = None
         self._sender = None
         self._text = ''
         self._client = None

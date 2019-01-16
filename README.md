@@ -1,6 +1,6 @@
 # pyWechatProxyClient
 
-A dedicated API client for WechatProxy.
+A dedicated API client for [wenoptk](https://github.com/wenoptics)'s WechatProxy.
 
 ## Install
 
@@ -26,3 +26,8 @@ def on_message(msg: Message):
 client.start()
 client.join()
 ```
+
+## Dependencies
+ - python-dateutil
+ - websocket-client
+ 
